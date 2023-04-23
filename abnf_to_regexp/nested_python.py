@@ -432,9 +432,12 @@ def _tokens_to_str_literal(tokens: List[_Token]) -> str:
             if token.kind == _TokenKind.TEXT:
                 regexp_writer.write(token.value.replace("{", "{{").replace("}", "}}"))
             elif token.kind == _TokenKind.REFERENCE:
-                regexp_writer.write("{")
-                regexp_writer.write(token.value)
-                regexp_writer.write("}")
+                value = token.value
+                regexp_writer.write("(?P<")
+                regexp_writer.write(value)
+                regexp_writer.write(">{")
+                regexp_writer.write(value)
+                regexp_writer.write("})")
             elif token.kind == _TokenKind.BREAK_POINT:
                 pass
             else:
